@@ -1,11 +1,13 @@
-<footer class="bg-[rgb(245,245,247)]">
+<footer class="bg-[rgb(30,54,78)]">
   <div class="mx-auto max-w-[64rem] px-4 sm:px-6">
     <div class="py-4 flex flex-col-reverse sm:flex-row sm:justify-between items-start sm:items-center gap-4 sm:gap-0">
-      <p class="text-sm text-gray-500">{{ 'footer.copyright' | translate }}</p>
-      <a href="#" 
-         class="text-sm text-gray-600 hover:text-gray-900 transition-colors" 
-         (click)="onLanguageToggle($event)">
-        <span [class.font-bold]="translate.currentLang === 'en'">EN</span><span class="mx-2">/</span><span [class.font-bold]="translate.currentLang === 'th'">ไทย</span>
+      <p class="text-sm text-[rgb(242,238,229)]">{{ 'footer.copyright' | translate }}</p>
+      <a href="#" class="text-sm text-[rgb(242,238,229)] hover:text-white transition-colors"
+        (click)="onLanguageToggle($event)">
+        <span
+          [ngClass]="{'font-bold': translate.currentLang === 'en', 'text-[rgb(222,232,242)]': translate.currentLang !== 'en'}">EN</span>
+          <span class="mx-2">/</span><span
+          [ngClass]="{'font-bold': translate.currentLang === 'th', 'text-[rgb(222,232,242)]': translate.currentLang !== 'th'}">ไทย</span>
       </a>
     </div>
   </div>
