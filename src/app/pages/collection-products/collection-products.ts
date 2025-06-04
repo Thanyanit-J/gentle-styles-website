@@ -16,7 +16,7 @@ interface Product {
   selector: 'app-collection-products',
   imports: [],
   templateUrl: './collection-products.html',
-  styleUrl: './collection-products.css'
+  styleUrl: './collection-products.css',
 })
 export class CollectionProducts implements OnInit {
   collectionId: string = '';
@@ -28,7 +28,7 @@ export class CollectionProducts implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly supabaseService: SupabaseService,
-    private readonly collectionsService: CollectionsService
+    private readonly collectionsService: CollectionsService,
   ) {}
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class CollectionProducts implements OnInit {
          * Get a specific collection by name
          * Returns null if collection doesn't exist
          */
-        this.collectionsService.getCollectionBySlug(this.collectionSlug).subscribe(collection => {
+        this.collectionsService.getCollectionBySlug(this.collectionSlug).subscribe((collection) => {
           if (!collection) {
             // Redirect to collections page if collection doesn't exist
             this.router.navigate(['/collections']);
@@ -65,7 +65,7 @@ export class CollectionProducts implements OnInit {
   private async loadProducts() {
     try {
       const dbProducts = await this.supabaseService.getProductsWithImage(this.collectionId);
-      
+
       this.products = dbProducts.map((p) => ({
         sku: p.sku,
         name: p.name,

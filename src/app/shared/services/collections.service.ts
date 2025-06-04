@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  Observable,
-  catchError,
-  from,
-  map,
-  of,
-  take,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, Observable, catchError, from, map, of, take, tap } from 'rxjs';
 
 import { Collection } from '$Pages/collections/collections.type';
 import { SupabaseService } from './supabase.service';
@@ -23,7 +14,7 @@ export class CollectionsService {
 
   constructor(
     private readonly supabaseService: SupabaseService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   /**
@@ -40,18 +31,14 @@ export class CollectionsService {
    * Get the latest collection (with highest number)
    */
   getLatestCollection(): Observable<Collection | null> {
-    return this.getAllCollections().pipe(
-      map((collections) => (collections.length > 0 ? collections[0] : null))
-    );
+    return this.getAllCollections().pipe(map((collections) => (collections.length > 0 ? collections[0] : null)));
   }
 
   /**
    * Get a specific number of collections after the latest one
    */
   getOtherCollections(count: number): Observable<Collection[]> {
-    return this.getAllCollections().pipe(
-      map((collections) => collections.slice(1, count + 1))
-    );
+    return this.getAllCollections().pipe(map((collections) => collections.slice(1, count + 1)));
   }
 
   /**
@@ -61,7 +48,7 @@ export class CollectionsService {
   getCollectionByName(name: string): Observable<Collection | null> {
     return this.getAllCollections().pipe(
       take(1),
-      map((collections) => collections.find((c) => c.title === name) ?? null)
+      map((collections) => collections.find((c) => c.title === name) ?? null),
     );
   }
 
@@ -72,7 +59,7 @@ export class CollectionsService {
   getCollectionBySlug(slug: string): Observable<Collection | null> {
     return this.getAllCollections().pipe(
       take(1),
-      map((collections) => collections.find((c) => c.slug === slug) ?? null)
+      map((collections) => collections.find((c) => c.slug === slug) ?? null),
     );
   }
 
@@ -88,7 +75,7 @@ export class CollectionsService {
           this.router.navigate(['/collections']);
           return false; // Collection doesn't exist, redirected
         }
-      })
+      }),
     );
   }
 
@@ -120,7 +107,7 @@ export class CollectionsService {
                   full_url: `/collections/${collection.slug}`,
                   number: collection.number,
                   slug: collection.slug,
-                } satisfies Collection)
+                }) satisfies Collection,
             );
             this.collectionsCache.next(mappedCollections);
           }
@@ -128,7 +115,7 @@ export class CollectionsService {
         catchError(() => {
           return of(null);
         }),
-        tap(() => this.isFetching.next(false))
+        tap(() => this.isFetching.next(false)),
       )
       .subscribe();
   }

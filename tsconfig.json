@@ -14,7 +14,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
-    "baseUrl" : "./src",
+    "baseUrl": "./src",
     "paths": {
       "$Shared/*": ["app/shared/*"],
       "$Pages/*": ["app/pages/*"],

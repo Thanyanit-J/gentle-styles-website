@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {NgClass} from '@angular/common';
+import { NgClass } from '@angular/common';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -8,7 +8,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   imports: [TranslateModule, NgClass],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
-  
 })
 export class Footer {
   protected readonly translate = inject(TranslateService);

@@ -27,7 +27,7 @@ export class Home implements OnInit {
         finalize(() => {
           // This will run after observable completes or errors
           // No action needed here as the template handles null values
-        })
+        }),
       )
       .subscribe({
         next: (collection) => {
@@ -46,7 +46,7 @@ export class Home implements OnInit {
         finalize(() => {
           // This will run after observable completes or errors
           // No action needed here as the template handles empty arrays
-        })
+        }),
       )
       .subscribe({
         next: (collections) => {

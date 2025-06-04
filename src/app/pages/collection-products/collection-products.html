@@ -4,11 +4,17 @@
     @for (product of products; track product) {
       <div class="bg-white rounded overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
         <div class="relative pb-[100%] bg-gray-100">
-          <img [src]="product.imageUrl"
+          <img
+            [src]="product.imageUrl"
             [alt]="product.name"
             onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
-            class="absolute inset-0 w-full h-full object-cover">
-          <span class="absolute inset-0 hidden text-gray-600 text-center flex items-center justify-center px-3 text-xs sm:text-sm">{{ product.name }}</span>
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <span
+            class="absolute inset-0 hidden text-gray-600 text-center flex items-center justify-center px-3 text-xs sm:text-sm"
+          >
+            {{ product.name }}
+          </span>
         </div>
         <div class="p-2 sm:p-4">
           <h2 class="text-xs sm:text-base font-medium mb-1 sm:mb-2 truncate">{{ product.name }}</h2>

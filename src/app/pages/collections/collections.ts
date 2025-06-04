@@ -9,7 +9,7 @@ import { CollectionsService } from '$Shared/services/collections.service';
   selector: 'app-collections',
   imports: [RouterModule, TranslateModule],
   templateUrl: './collections.html',
-  styleUrl: './collections.css'
+  styleUrl: './collections.css',
 })
 export class Collections implements OnInit {
   collections: Collection[] = [];
@@ -17,7 +17,7 @@ export class Collections implements OnInit {
   constructor(private readonly collectionsService: CollectionsService) {}
 
   ngOnInit(): void {
-    this.collectionsService.getAllCollections().subscribe(collections => {
+    this.collectionsService.getAllCollections().subscribe((collections) => {
       this.collections = collections;
     });
   }

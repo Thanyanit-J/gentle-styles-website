@@ -7,10 +7,13 @@
         <div class="absolute inset-0 flex flex-col justify-end p-4 pb-8 sm:p-12 max-w-[64rem] mx-auto">
           <div class="text-center sm:text-left">
             <p class="text-xs sm:text-sm font-light mb-1 sm:mb-2 text-white">New Collection</p>
-            <h1 class="text-[1.5rem] sm:text-4xl font-light mb-3 sm:mb-6 text-white leading-[1.1] sm:whitespace-nowrap">{{
-            latestCollection.title }}</h1>
-            <button [routerLink]="latestCollection.full_url"
-              class="inline-block sm:self-start border border-white text-white text-[10px] sm:text-base px-5 sm:px-8 py-1.5 sm:py-2.5 hover:bg-white hover:text-black transition-colors duration-300">
+            <h1 class="text-[1.5rem] sm:text-4xl font-light mb-3 sm:mb-6 text-white leading-[1.1] sm:whitespace-nowrap">
+              {{ latestCollection.title }}
+            </h1>
+            <button
+              [routerLink]="latestCollection.full_url"
+              class="inline-block sm:self-start border border-white text-white text-[10px] sm:text-base px-5 sm:px-8 py-1.5 sm:py-2.5 hover:bg-white hover:text-black transition-colors duration-300"
+            >
               BUY NOW
             </button>
           </div>
@@ -35,17 +38,18 @@
     <div class="grid grid-cols-2 gap-4 sm:gap-8">
       @if (otherCollections.length > 0) {
         @for (collection of otherCollections; track collection) {
-          <div class="relative bg-white rounded-lg overflow-hidden cursor-pointer"
+          <div
+            class="relative bg-white rounded-lg overflow-hidden cursor-pointer"
             [routerLink]="collection.full_url ? collection.full_url : []"
-            (click)="collection.full_url ? null : $event.preventDefault()">
+            (click)="collection.full_url ? null : $event.preventDefault()"
+          >
             <!-- Card Container with Image -->
             <div class="aspect-[1/1.618] relative">
               <!-- Image Container -->
               <div class="absolute inset-0">
                 <div class="absolute inset-0 bg-gray-200">
                   @if (collection.imageUrl) {
-                    <img [src]="collection.imageUrl" [alt]="collection.title"
-                      class="w-full h-full object-cover">
+                    <img [src]="collection.imageUrl" [alt]="collection.title" class="w-full h-full object-cover" />
                   }
                 </div>
               </div>
@@ -57,7 +61,9 @@
                 <!-- Text area (0.382 of height) -->
                 <div class="flex-grow flex items-center justify-center" style="flex: 0.382">
                   <div class="text-center w-full px-4">
-                    <h1 class="text-2xl sm:text-3xl text-white font-light">{{ collection.title }}</h1>
+                    <h1 class="text-2xl sm:text-3xl text-white font-light">
+                      {{ collection.title }}
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -85,9 +91,11 @@
 
     @if (otherCollections.length > 4) {
       <div class="text-center mt-12">
-        <a routerLink="/collections"
-          class="inline-block border border-black text-black text-sm sm:text-base px-8 sm:px-10 py-2.5 sm:py-3 hover:bg-black hover:text-white transition-colors duration-300">
-          {{ 'main.viewAllCollections' | translate }}
+        <a
+          routerLink="/collections"
+          class="inline-block border border-black text-black text-sm sm:text-base px-8 sm:px-10 py-2.5 sm:py-3 hover:bg-black hover:text-white transition-colors duration-300"
+        >
+          {{ "main.viewAllCollections" | translate }}
         </a>
       </div>
     }
