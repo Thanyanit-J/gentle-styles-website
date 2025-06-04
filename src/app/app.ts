@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
 import { TranslateService } from '@ngx-translate/core';
-import { Footer } from './shared/footer/footer';
-import { Header } from './shared/header/header';
+
+import { Footer } from '$Core/footer/footer';
+import { Header } from '$Core/header/header';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
 })
 export class App {
   private readonly translate = inject(TranslateService);
