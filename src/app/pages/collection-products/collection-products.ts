@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { CollectionsService } from '$Shared/services/collections.service';
@@ -22,7 +22,7 @@ export class CollectionProducts implements OnInit {
   collectionId: string = '';
   collectionName: string = '';
   collectionSlug: string = '';
-  products: Product[] = [];
+  products = signal<Product[]>([]);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -66,13 +66,13 @@ export class CollectionProducts implements OnInit {
     try {
       const dbProducts = await this.supabaseService.getProductsWithImage(this.collectionId);
 
-      this.products = dbProducts.map((p) => ({
+      this.products.set(dbProducts.map((p) => ({
         sku: p.sku,
         name: p.name,
         price: p.price,
         imageUrl: p.image_url,
         collection: this.collectionName,
-      }));
+      })));
     } catch (error) {
       console.error('Error loading products:', error);
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -14,8 +14,8 @@ import { finalize } from 'rxjs/operators';
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-  latestCollection: Collection | null = null;
-  otherCollections: Collection[] = [];
+  latestCollection = signal<Collection | null>(null);
+  otherCollections = signal<Collection[]>([]);
 
   constructor(private readonly collectionsService: CollectionsService) {}
 
@@ -31,7 +31,7 @@ export class Home implements OnInit {
       )
       .subscribe({
         next: (collection) => {
-          this.latestCollection = collection;
+          this.latestCollection.set(collection);
         },
         error: (error) => {
           console.error('Error fetching latest collection:', error);
@@ -41,7 +41,7 @@ export class Home implements OnInit {
 
     // Get up to 4 other collections for the grid (latest to oldest)
     this.collectionsService
-      .getOtherCollections(4)
+      .getOtherCollections()
       .pipe(
         finalize(() => {
           // This will run after observable completes or errors
@@ -50,7 +50,7 @@ export class Home implements OnInit {
       )
       .subscribe({
         next: (collections) => {
-          this.otherCollections = collections;
+          this.otherCollections.set(collections);
         },
         error: (error) => {
           console.error('Error fetching other collections:', error);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -12,13 +12,13 @@ import { CollectionsService } from '$Shared/services/collections.service';
   styleUrl: './collections.css',
 })
 export class Collections implements OnInit {
-  collections: Collection[] = [];
+  collections = signal<Collection[]>([]);
 
   constructor(private readonly collectionsService: CollectionsService) {}
 
   ngOnInit(): void {
     this.collectionsService.getAllCollections().subscribe((collections) => {
-      this.collections = collections;
+      this.collections.set(collections);
     });
   }
 }

@@ -37,8 +37,8 @@ export class CollectionsService {
   /**
    * Get a specific number of collections after the latest one
    */
-  getOtherCollections(count: number): Observable<Collection[]> {
-    return this.getAllCollections().pipe(map((collections) => collections.slice(1, count + 1)));
+  getOtherCollections(): Observable<Collection[]> {
+    return this.getAllCollections().pipe(map((collections) => collections.slice(1, collections.length)));
   }
 
   /**
