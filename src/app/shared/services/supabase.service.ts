@@ -39,11 +39,14 @@ export class SupabaseService {
     return data as dbProduct[];
   }
 
-  async getProductImages(productId: dbProduct['id']): Promise<dbProductImage[]> {
-    const { data, error } = await this.supabase.from('product_images').select('*').eq('product_id', productId);
+  async getProductImagesFromSKU(productSKU: dbProduct['sku']): Promise<dbProductImage[]> {
+    const { data, error } = await this.supabase
+      .from('products')
+      .select(`id, sku, product_images!inner (*)`)
+      .eq('sku', productSKU);
 
     if (error) throw error;
-    return data as dbProductImage[];
+    return data[0].product_images as dbProductImage[];
   }
 
   /**

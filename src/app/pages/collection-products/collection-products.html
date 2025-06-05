@@ -2,7 +2,7 @@
   <h1 class="text-2xl sm:text-3xl font-light mb-4 sm:mb-8 text-center">{{ collectionName }}</h1>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
     @for (product of products(); track product) {
-      <a [routerLink]="['/product', product.id]" class="bg-white rounded overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+      <a [routerLink]="['/product', product.sku]" class="bg-white rounded overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
         <div class="relative pb-[100%] bg-gray-100">
           <img
             [src]="product.imageUrl"

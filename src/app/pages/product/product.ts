@@ -28,21 +28,21 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     // Get product ID from route params
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('productId');
-      if (id) {
-        this.productId.set(id);
-        this.loadProduct(id);
+      const sku = params.get('productSKU');
+      if (sku) {
+        this.productId.set(sku);
+        this.loadProduct(sku);
       }
     });
   }
 
-  async loadProduct(id: string) {
+  async loadProduct(sku: string) {
     this.isLoading.set(true);
 
     try {
       // Get product data from Supabase
       const products = await this.supabaseService.getProducts();
-      const product = products.find((p) => p.id === id);
+      const product = products.find((p) => p.sku === sku);
 
       if (!product) {
         console.error('Product not found');
@@ -51,7 +51,7 @@ export class ProductComponent implements OnInit {
       }
 
       // Get product images
-      const images = await this.supabaseService.getProductImages(id);
+      const images = await this.supabaseService.getProductImagesFromSKU(sku);
 
       // Transform to our Product interface
       this.product.set({
