@@ -1,6 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, catchError, from, map, of, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  catchError,
+  from,
+  map,
+  of,
+  shareReplay,
+  take,
+  tap,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 
 import { Collection } from '$Pages/collections/collections.type';
 import { SupabaseService } from './supabase.service';
@@ -22,7 +36,7 @@ export class CollectionsService {
    */
   getAllCollections(): Observable<Collection[]> {
     if (this.collectionsCache?.value?.length === 0 && !this.isFetching.value) {
-      this.fetchCollections();
+      return this.fetchCollections();
     }
     return this.collectionsCache.asObservable();
   }
@@ -79,44 +93,48 @@ export class CollectionsService {
     );
   }
 
-  /**
-   * Force a refresh of the collections data
-   */
-  refreshCollections(): void {
-    this.fetchCollections();
-  }
+  private fetchCollectionsObservable: Observable<Collection[]> | null = null;
+  private readonly refreshTrigger = new Subject<void>();
 
   /**
    * Private method to fetch collections from the database
+   * Returns an observable that emits when fetch completes
    */
-  private fetchCollections(): void {
+  private fetchCollections(): Observable<Collection[]> {
+    this.refreshTrigger.next();
+    this.fetchCollectionsObservable = null;
+
     this.isFetching.next(true);
 
-    from(this.supabaseService.getCollections())
-      .pipe(
-        tap((collections) => {
-          if (collections?.length === 0) {
-            this.collectionsCache.next([]);
-          } else {
-            const mappedCollections = collections.map<Collection>(
-              (collection) =>
-                ({
-                  id: collection.id,
-                  title: collection.display_name,
-                  description: '',
-                  full_url: `/collections/${collection.slug}`,
-                  number: collection.number,
-                  slug: collection.slug,
-                }) satisfies Collection,
-            );
-            this.collectionsCache.next(mappedCollections);
-          }
-        }),
-        catchError(() => {
-          return of(null);
-        }),
-        tap(() => this.isFetching.next(false)),
-      )
-      .subscribe();
+    // Create a new observable that will complete when the HTTP request completes
+    this.fetchCollectionsObservable = from(this.supabaseService.getCollections()).pipe(
+      map((collections) => {
+        if (collections?.length === 0) {
+          return [];
+        } else {
+          return collections.map<Collection>(
+            (collection) =>
+              ({
+                id: collection.id,
+                title: collection.display_name,
+                description: '',
+                full_url: `/collections/${collection.slug}`,
+                number: collection.number,
+                slug: collection.slug,
+              }) satisfies Collection,
+          );
+        }
+      }),
+      catchError(() => of([])),
+      tap((collections) => {
+        this.collectionsCache.next(collections);
+        this.isFetching.next(false);
+      }),
+      takeUntil(this.refreshTrigger),
+      // Use shareReplay with refCount: true to ensure the observable is disposed when there are no more subscribers
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
+
+    return this.fetchCollectionsObservable;
   }
 }
