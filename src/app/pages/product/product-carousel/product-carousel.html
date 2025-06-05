@@ -1,0 +1,92 @@
+<div class="relative w-full overflow-hidden">
+  <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden relative mb-2 w-full select-none">
+    <!-- Main Display -->
+    <div
+      #mainDisplay
+      id="main-display-container"
+      class="flex w-full h-full relative overflow-x-scroll overscroll-x-contain scrollbar-none snap-x snap-mandatory scroll-smooth"
+      (scroll)="updateCurrentImageOnScroll($event)"
+    >
+      <!-- Images positioned horizontally -->
+      @for (url of imageURLs(); track $index) {
+        <div class="w-full h-full flex-shrink-0 snap-center" [id]="'carousel-image-' + $index">
+          <img [src]="url" [alt]="productName() + ' ' + ($index + 1)" class="w-full h-full object-cover" />
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Thumbnail Navigation -->
+  <div class="relative w-full overflow-hidden">
+    <!-- Navigation Controls and Thumbnail Container -->
+    <div class="flex items-center w-full">
+      <!-- Left Arrow - visible only on desktop devices -->
+      @if (deviceType() === 'desktop') {
+        <div class="flex-shrink-0 z-10 mx-2">
+          <button
+            (click)="scrollToPrevImage()"
+            class="bg-white/90 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+        </div>
+      }
+      <!-- Thumbnail Scroll Container -->
+      <div class="flex-1 overflow-hidden py-4 px-0.5">
+        <div
+          #thumbnailContainer
+          id="thumbnail-container"
+          class="flex space-x-3 p-0.5 w-full overflow-x-auto scrollbar-none snap-x snap-mandatory"
+        >
+          @for (url of imageURLs(); track $index) {
+            <div class="snap-center flex-shrink-0">
+              <button
+                (click)="scrollToImage($index)"
+                class="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 transition-all duration-150"
+                [class.ring-2]="currentImageIndex() === $index"
+                [class.ring-black]="currentImageIndex() === $index"
+                [id]="'thumbnail-' + $index"
+              >
+                <img
+                  [src]="url"
+                  [alt]="'Product thumbnail ' + ($index + 1)"
+                  class="w-full h-full object-cover transition-opacity duration-300 hover:opacity-90"
+                />
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Right Arrow - visible only on desktop devices -->
+      @if (deviceType() === 'desktop') {
+        <div class="flex-shrink-0 z-10 mx-2">
+          <button
+            (click)="scrollToNextImage()"
+            class="bg-white/90 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

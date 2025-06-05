@@ -1,0 +1,87 @@
+<div class="container mx-auto px-4 pt-3 pb-12 max-w-7xl overflow-hidden">
+  <!-- Back Button -->
+  <div class="mb-4 md:mb-6">
+    <button (click)="goBack()" class="flex items-center text-gray-600 hover:text-black transition-colors py-1 md:py-2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      <span class="text-sm md:text-base">Back to Collection</span>
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <!-- Skeleton Loader -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Image Carousel Skeleton -->
+      <div class="aspect-square bg-gray-200 animate-pulse rounded-lg"></div>
+
+      <!-- Product Info Skeleton -->
+      <div class="flex flex-col space-y-6">
+        <div class="h-8 bg-gray-200 animate-pulse rounded w-3/4"></div>
+        <div class="h-6 bg-gray-200 animate-pulse rounded w-1/4"></div>
+        <div class="h-24 bg-gray-200 animate-pulse rounded w-full"></div>
+        <div class="space-y-4">
+          <div class="h-12 bg-gray-200 animate-pulse rounded w-1/2"></div>
+          <div class="h-12 bg-gray-200 animate-pulse rounded w-1/2"></div>
+        </div>
+      </div>
+    </div>
+  } @else if (!product()) {
+    <!-- Product Not Found -->
+    <div class="text-center py-12">
+      <h2 class="text-2xl font-light mb-4">Product Not Found</h2>
+      <p class="text-gray-600 mb-6">The product you're looking for could not be found.</p>
+      <button (click)="goBack()" class="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors">
+        Return to Collections
+      </button>
+    </div>
+  } @else {
+    <!-- Product Content -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 overflow-hidden">
+      <!-- Image Carousel -->
+      <app-product-carousel [imageURLs]="product()!.images" [productName]="product()!.name"></app-product-carousel>
+
+      <!-- Product Info -->
+      <div class="flex flex-col space-y-4">
+        @if (product()?.name) {
+          <h1 class="font-light md:text-3xl text-2xl">{{ product()?.name }}</h1>
+        }
+        @if (product()?.price) {
+          <p class="text-xl font-light">{{ product()?.price?.toFixed(2) }} ฿</p>
+        }
+        @if (product()?.description) {
+          <p class="text-gray-700">{{ product()?.description || "No description available" }}</p>
+        }
+        <!-- External Purchase Buttons -->
+        <div class="space-y-4 mt-4">
+          @if (product()?.platforms) {
+            <div class="flex flex-wrap gap-3">
+              @for (platform of product()!.platforms!; track platform.name) {
+                <a
+                  [href]="platform.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center space-x-3 border border-gray-300 rounded-lg px-3 py-3 hover:bg-gray-100 transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center">
+                    <img [src]="platform.logo" [alt]="platform.name + ' logo'" class="max-h-6 max-w-6 object-contain" />
+                  </div>
+                  <span class="text-sm">Buy on {{ platform.name }}</span>
+                </a>
+              }
+            </div>
+          } @else {
+            <p class="text-gray-500">No purchase options available</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

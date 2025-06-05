@@ -1,10 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { CollectionsService } from '$Shared/services/collections.service';
 import { SupabaseService } from '$Shared/services/supabase.service';
 
 interface Product {
+  id: string;
   sku: string;
   name: string;
   price: number;
@@ -14,7 +16,8 @@ interface Product {
 
 @Component({
   selector: 'app-collection-products',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './collection-products.html',
   styleUrl: './collection-products.css',
 })
@@ -67,6 +70,7 @@ export class CollectionProducts implements OnInit {
       const dbProducts = await this.supabaseService.getProductsWithImage(this.collectionId);
 
       this.products.set(dbProducts.map((p) => ({
+        id: p.id || p.sku,
         sku: p.sku,
         name: p.name,
         price: p.price,
