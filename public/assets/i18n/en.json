@@ -4,5 +4,8 @@
   },
   "nav": {
     "collections": "Collections"
+  },
+  "main": {
+    "viewAllCollections": "View all collections"
   }
 }

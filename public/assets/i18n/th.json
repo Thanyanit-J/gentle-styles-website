@@ -4,5 +4,8 @@
   },
   "nav": {
     "collections": "คอลเลกชัน"
+  },
+  "main": {
+    "viewAllCollections": "ดูคอลเลกชันทั้งหมด"
   }
 }
