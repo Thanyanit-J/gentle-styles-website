@@ -16,6 +16,7 @@ import { finalize } from 'rxjs/operators';
 export class Home implements OnInit {
   latestCollection = signal<Collection | null>(null);
   otherCollections = signal<Collection[]>([]);
+  protected readonly maxOtherCollections = 4;
 
   constructor(private readonly collectionsService: CollectionsService) {}
 
