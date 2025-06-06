@@ -46,7 +46,7 @@ export class SupabaseService {
    * Get list of products with an image with display order = 0
    * Require collectionId to be provided
    */
-  async getProductsWithImage(collection: dbProduct['id']): Promise<dbProductWithImage[]> {
+  async getProductsWithImageByCollectionId(collectionId: dbProduct['id']): Promise<dbProductWithImage[]> {
     const { data, error } = await this.supabase
       .from('products')
       .select(
@@ -57,7 +57,7 @@ export class SupabaseService {
         )
       `,
       )
-      .eq('collection_id', collection)
+      .eq('collection_id', collectionId)
       .eq('product_images.display_order', 0);
 
     if (error) throw error;

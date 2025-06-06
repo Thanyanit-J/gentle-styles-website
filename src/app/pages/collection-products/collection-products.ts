@@ -74,7 +74,7 @@ export class CollectionProducts implements OnInit {
 
   private async loadProducts() {
     try {
-      const dbProducts = await this.supabaseService.getProductsWithImage(this.collectionId);
+      const dbProducts = await this.supabaseService.getProductsWithImageByCollectionId(this.collectionId);
 
       this.products.set(dbProducts.map((p) => ({
         id: p.id || p.sku,
