@@ -41,8 +41,7 @@ export class ProductComponent implements OnInit {
 
     try {
       // Get product data from Supabase
-      const products = await this.supabaseService.getProducts();
-      const product = products.find((p) => p.sku === sku);
+      const product = await this.supabaseService.getProductBySKU(sku);
 
       if (!product) {
         console.error('Product not found');

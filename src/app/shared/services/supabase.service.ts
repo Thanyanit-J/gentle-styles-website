@@ -26,17 +26,10 @@ export class SupabaseService {
     return data as dbCollection[];
   }
 
-  async getProducts(collectionId?: dbCollection['id']): Promise<dbProduct[]> {
-    let query = this.supabase.from('products').select('*');
-
-    if (collectionId) {
-      query = query.eq('collection_id', collectionId);
-    }
-
-    const { data, error } = await query;
-
+  async getProductBySKU(sku: dbProduct['sku']): Promise<dbProduct | null> {
+    const { data, error } = await this.supabase.from('products').select('*').eq('sku', sku);
     if (error) throw error;
-    return data as dbProduct[];
+    return data[0] as dbProduct;
   }
 
   async getProductImagesFromSKU(productSKU: dbProduct['sku']): Promise<dbProductImage[]> {
