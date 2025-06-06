@@ -28,6 +28,19 @@
       <a routerLink="/collections" class="block hover:text-white" (click)="close()">
         {{ "nav.collections" | translate }}
       </a>
+
+      <!-- Collection list -->
+      <div class="space-y-4">
+        @for (collection of collections(); track collection.id) {
+          <a 
+            [routerLink]="collection.full_url" 
+            class="block text-lg font-normal text-[rgb(242,238,229)]/80 hover:text-white transition-colors duration-200" 
+            (click)="close()"
+          >
+            {{ collection.title }}
+          </a>
+        }
+      </div>
     </div>
   </div>
 </div>
