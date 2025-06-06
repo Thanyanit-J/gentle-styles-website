@@ -40,8 +40,7 @@
         @for (collection of otherCollections().slice(0, maxOtherCollections); track collection) {
           <div
             class="relative bg-white rounded-lg overflow-hidden cursor-pointer"
-            [routerLink]="collection.full_url ? collection.full_url : []"
-            (click)="collection.full_url ? null : $event.preventDefault()"
+            [routerLink]="collection.full_url ? collection.full_url : ''"
           >
             <!-- Card Container with Image -->
             <div class="aspect-[1/1.618] relative">
