@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,6 +22,10 @@ export class Menu {
 
     this.menuService.menuClose.subscribe(() => {
       this.close();
+    });
+
+    effect(() => {
+      document.body.style.overflow = this.visible() ? 'hidden' : '';
     });
   }
 
