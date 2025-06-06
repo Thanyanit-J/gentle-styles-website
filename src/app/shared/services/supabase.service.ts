@@ -26,6 +26,18 @@ export class SupabaseService {
     return data as dbCollection[];
   }
 
+  async getCollectionsWithImage(): Promise<dbCollectionWithImage[]> {
+    const { data, error } = await this.supabase
+      .from('collections')
+      .select('*, collection_images!inner (url)')
+      .order('number', { ascending: false });
+    if (error) throw error;
+    return data.map((item) => ({
+      ...item,
+      image_url: item.collection_images[0].url,
+    })) as dbCollectionWithImage[];
+  }
+
   async getProductBySKU(sku: dbProduct['sku']): Promise<dbProduct | null> {
     const { data, error } = await this.supabase.from('products').select('*').eq('sku', sku);
     if (error) throw error;
@@ -79,6 +91,10 @@ type dbCollection = {
   slug: string;
   created_at: string;
   updated_at: string;
+};
+
+type dbCollectionWithImage = dbCollection & {
+  image_url: string;
 };
 
 type dbProduct = {

@@ -86,7 +86,7 @@ export class CollectionsService {
     this.isFetching.next(true);
 
     // Create a new observable that will complete when the HTTP request completes
-    this.fetchCollectionsObservable = from(this.supabaseService.getCollections()).pipe(
+    this.fetchCollectionsObservable = from(this.supabaseService.getCollectionsWithImage()).pipe(
       map((collections) => {
         if (collections?.length === 0) {
           return [];
@@ -97,6 +97,7 @@ export class CollectionsService {
                 id: collection.id,
                 title: collection.display_name,
                 description: '',
+                imageUrl: collection.image_url,
                 full_url: `/collections/${collection.slug}`,
                 number: collection.number,
                 slug: collection.slug,

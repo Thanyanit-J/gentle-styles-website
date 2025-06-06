@@ -9,12 +9,8 @@
           <img
             [src]="collection.imageUrl"
             [alt]="collection.title"
-            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
             class="absolute inset-0 w-full h-full object-cover"
           />
-          <span class="absolute inset-0 text-gray-600 text-center flex items-center justify-center px-4">
-            {{ collection.title }}
-          </span>
         </div>
         <div class="p-6">
           <h2 class="text-xl font-semibold mb-2 text-gray-900">{{ collection.title }}</h2>

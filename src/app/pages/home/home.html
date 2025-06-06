@@ -3,6 +3,14 @@
   <section class="relative">
     @if (latestCollection()) {
       <div class="aspect-[1.618/1] sm:aspect-[1.618/1] relative overflow-hidden bg-gray-200">
+        <!-- Background Image -->
+        @if (latestCollection()?.imageUrl) {
+          <img 
+            [src]="latestCollection()?.imageUrl" 
+            [alt]="latestCollection()?.title" 
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+        }
         <!-- Text Overlay -->
         <div class="absolute inset-0 flex flex-col justify-end p-4 pb-8 sm:p-12 max-w-[64rem] mx-auto">
           <div class="text-center sm:text-left">
