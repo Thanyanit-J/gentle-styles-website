@@ -4,11 +4,12 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Footer } from '$Core/footer/footer';
 import { Header } from '$Core/header/header';
+import { Menu } from '$Core/menu/menu';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, Header, Footer, Menu],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })

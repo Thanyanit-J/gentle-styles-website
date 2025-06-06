@@ -1,14 +1,20 @@
 <header class="fixed top-0 left-0 right-0 z-50 bg-[rgb(30,54,78)] backdrop-blur-[20px] backdrop-saturate-[180%]">
   <nav class="mx-auto max-w-[64rem]" aria-label="Top">
     <div class="flex w-full items-center justify-center">
-      <div class="flex items-center space-x-8">
-        <a routerLink="/" class="text-2xl font-semibold text-[rgb(242,238,229)]">
-          <img src="assets/images/logo.svg" alt="Gentle Styles" class="w-[18.75rem] h-[3.375rem]" />
-        </a>
-        <div class="space-x-8 text-base font-medium text-[rgb(242,238,229)]">
-          <a routerLink="/collections" class="hover:text-white">{{ "nav.collections" | translate }}</a>
-        </div>
-      </div>
+      <!-- Hamburger button -->
+      <button
+        (click)="openMenu()"
+        class="absolute left-0 w-[3.375rem] h-[3.375rem] text-[rgb(242,238,229)] focus:outline-none flex items-center justify-center"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- Logo centered -->
+      <a routerLink="/" class="">
+        <img src="assets/images/logo.svg" alt="Gentle Styles" class="w-[18.75rem] h-[3.375rem]" />
+      </a>
     </div>
   </nav>
 </header>

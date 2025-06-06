@@ -1,11 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { Menu } from '$Core/menu/menu';
+import { MenuService } from '$Shared/services/menu.service';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, TranslateModule],
+  standalone: true,
+  imports: [RouterLink, TranslateModule, CommonModule, Menu],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header {}
+export class Header {
+  protected readonly menuService = inject(MenuService);
+
+  openMenu() {
+    this.menuService.openMenu();
+  }
+}

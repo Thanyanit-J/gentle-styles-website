@@ -1,0 +1,33 @@
+<!-- Background Overlay -->
+<div
+  class="fixed inset-0 bg-black/[var(--bg-opacity)] [--bg-opacity:50%] z-60 transition-opacity duration-250 ease-in-out"
+  [ngClass]="{
+    'opacity-0': !visible(),
+    'pointer-events-none': !visible(),
+  }"
+  (click)="close()"
+></div>
+
+<!-- Menu -->
+<div
+  class="fixed top-0 left-0 bottom-0 w-full md:max-w-[28rem] bg-[rgb(30,54,78)] z-70 transform transition-transform duration-250 ease-in-out"
+  [ngClass]="{
+    'translate-x-0': visible(),
+    '-translate-x-full': !visible(),
+  }"
+>
+  <div class="flex flex-col h-full p-6">
+    <div class="flex justify-end">
+      <button (click)="close()" class="text-[rgb(242,238,229)] focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="mt-8 space-y-6 text-xl font-medium text-[rgb(242,238,229)]">
+      <a routerLink="/collections" class="block hover:text-white" (click)="close()">
+        {{ "nav.collections" | translate }}
+      </a>
+    </div>
+  </div>
+</div>
