@@ -5,11 +5,12 @@ import { SupabaseService } from '../../shared/services/supabase.service';
 import { CollectionsService } from '../../shared/services/collections.service';
 import { Product, ProductPlatform } from './product.type';
 import { ProductCarousel } from './product-carousel/product-carousel';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProductCarousel],
+  imports: [CommonModule, RouterModule, ProductCarousel, TranslateModule],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })

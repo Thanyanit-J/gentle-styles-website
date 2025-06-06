@@ -14,7 +14,7 @@
         <!-- Text Overlay -->
         <div class="absolute inset-0 flex flex-col justify-end p-4 pb-8 sm:p-12 max-w-[64rem] mx-auto">
           <div class="text-center sm:text-left">
-            <p class="text-xs sm:text-sm font-light mb-1 sm:mb-2 text-white">New Collection</p>
+            <p class="text-xs sm:text-sm font-light mb-1 sm:mb-2 text-white">{{ 'home.newCollection' | translate }}</p>
             <h1 class="text-[1.5rem] sm:text-4xl font-light mb-3 sm:mb-6 text-white leading-[1.1] sm:whitespace-nowrap">
               {{ latestCollection()?.title }}
             </h1>
@@ -22,7 +22,7 @@
               [routerLink]="latestCollection()?.full_url"
               class="inline-block sm:self-start border border-white text-white text-[10px] sm:text-base px-5 sm:px-8 py-1.5 sm:py-2.5 hover:bg-white hover:text-black transition-colors duration-300"
             >
-              BUY NOW
+              {{ 'home.buyNow' | translate }}
             </button>
           </div>
         </div>
@@ -102,7 +102,7 @@
           routerLink="/collections"
           class="inline-block border border-black text-black text-sm sm:text-base px-8 sm:px-10 py-2.5 sm:py-3 hover:bg-black hover:text-white transition-colors duration-300"
         >
-          {{ "main.viewAllCollections" | translate }}
+          {{ "home.viewAllCollections" | translate }}
         </a>
       </div>
     }

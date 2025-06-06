@@ -5,7 +5,17 @@
   "nav": {
     "collections": "คอลเลกชัน"
   },
-  "main": {
+  "home": {
+    "newCollection": "คอลเลกชันใหม่",
+    "buyNow": "ซื้อเลย",
     "viewAllCollections": "ดูคอลเลกชันทั้งหมด"
+  },
+  "product": {
+    "backToCollection": "กลับสู่รายการสินค้า",
+    "productNotFound": "ไม่เจอสินค้าที่มีรหัสนี้",
+    "productNotFoundDescription": "เราหาสินค้าที่คุณมองหาอยู่ไม่เจอ",
+    "returnToCollections": "กลับสู่หน้ารวมคอลเลกชัน",
+    "buyOn": "ซื้อเลยที่",
+    "noPurchaseOptions": "ไม่ได้วางขาย ณ ขณะนี้"
   }
 }

@@ -5,7 +5,17 @@
   "nav": {
     "collections": "Collections"
   },
-  "main": {
+  "home": {
+    "newCollection": "New Collection",
+    "buyNow": "BUY NOW",
     "viewAllCollections": "View all collections"
+  },
+  "product": {
+    "backToCollection": "Back to Collection",
+    "productNotFound": "Product Not Found",
+    "productNotFoundDescription": "The product you're looking for could not be found.",
+    "returnToCollections": "Return to Collections",
+    "buyOn": "Buy on",
+    "noPurchaseOptions": "No purchase options available"
   }
 }
