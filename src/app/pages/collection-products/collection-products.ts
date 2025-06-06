@@ -26,6 +26,8 @@ export class CollectionProducts implements OnInit {
   collectionName: string = '';
   collectionSlug: string = '';
   products = signal<Product[]>([]);
+  collectionNotFound = signal<boolean>(false);
+  isLoading = signal<boolean>(true);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -38,29 +40,34 @@ export class CollectionProducts implements OnInit {
     // Get the collection slug from the URL parameter
     this.route.params.subscribe(async (params) => {
       this.collectionSlug = params['collectionSlug'];
+      this.isLoading.set(true);
+      this.collectionNotFound.set(false);
 
       try {
         // Check if the collection exists using our service
         /**
-         * getCollectionByName()
-         * Get a specific collection by name
+         * getCollectionBySlug()
+         * Get a specific collection by slug
          * Returns null if collection doesn't exist
          */
         this.collectionsService.getCollectionBySlug(this.collectionSlug).subscribe((collection) => {
           if (!collection) {
-            // Redirect to collections page if collection doesn't exist
-            this.router.navigate(['/collections']);
+            // Set collection not found state instead of redirecting
+            this.collectionNotFound.set(true);
+            this.isLoading.set(false);
             return;
           }
 
           this.collectionId = collection.id ?? '';
           this.collectionName = collection.title ?? '';
+          this.collectionNotFound.set(false);
 
           this.loadProducts();
         });
       } catch (error) {
         console.error('Error loading collection:', error);
-        this.router.navigate(['/collections']);
+        this.collectionNotFound.set(true);
+        this.isLoading.set(false);
       }
     });
   }
@@ -79,6 +86,12 @@ export class CollectionProducts implements OnInit {
       })));
     } catch (error) {
       console.error('Error loading products:', error);
+    } finally {
+      this.isLoading.set(false);
     }
+  }
+
+  goBackToCollections() {
+    this.router.navigate(['/collections']);
   }
 }

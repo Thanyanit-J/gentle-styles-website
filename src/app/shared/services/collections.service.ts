@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   Observable,
-  ReplaySubject,
   Subject,
   catchError,
   from,
@@ -12,7 +11,6 @@ import {
   shareReplay,
   take,
   tap,
-  switchMap,
   takeUntil,
 } from 'rxjs';
 
@@ -26,6 +24,9 @@ export class CollectionsService {
   private readonly collectionsCache = new BehaviorSubject<Collection[]>([]);
   private readonly isFetching = new BehaviorSubject<boolean>(false);
 
+  private fetchCollectionsObservable: Observable<Collection[]> | null = null;
+  private readonly refreshTrigger = new Subject<void>();
+
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly router: Router,
@@ -35,9 +36,17 @@ export class CollectionsService {
    * Get all collections, fetching from the database if necessary
    */
   getAllCollections(): Observable<Collection[]> {
+    // If cache is empty and not currently fetching, start a new fetch
     if (this.collectionsCache?.value?.length === 0 && !this.isFetching.value) {
       return this.fetchCollections();
     }
+    
+    // If currently fetching, return the ongoing fetch observable
+    if (this.isFetching.value && this.fetchCollectionsObservable) {
+      return this.fetchCollectionsObservable;
+    }
+    
+    // Otherwise, return cached data
     return this.collectionsCache.asObservable();
   }
 
@@ -56,45 +65,15 @@ export class CollectionsService {
   }
 
   /**
-   * Get a specific collection by name
-   * Returns null if collection doesn't exist
-   */
-  getCollectionByName(name: string): Observable<Collection | null> {
-    return this.getAllCollections().pipe(
-      take(1),
-      map((collections) => collections.find((c) => c.title === name) ?? null),
-    );
-  }
-
-  /**
    * Get a specific collection by slug
    * Returns null if collection doesn't exist
    */
   getCollectionBySlug(slug: string): Observable<Collection | null> {
     return this.getAllCollections().pipe(
-      take(1),
       map((collections) => collections.find((c) => c.slug === slug) ?? null),
+      take(1),
     );
   }
-
-  /**
-   * Navigate to collection products or redirect to collections if invalid
-   */
-  navigateToCollection(collectionSlug: string): Observable<boolean> {
-    return this.getCollectionBySlug(collectionSlug).pipe(
-      map((collection) => {
-        if (collection) {
-          return true; // Collection exists, proceed with navigation
-        } else {
-          this.router.navigate(['/collections']);
-          return false; // Collection doesn't exist, redirected
-        }
-      }),
-    );
-  }
-
-  private fetchCollectionsObservable: Observable<Collection[]> | null = null;
-  private readonly refreshTrigger = new Subject<void>();
 
   /**
    * Private method to fetch collections from the database

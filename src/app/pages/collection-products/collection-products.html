@@ -1,26 +1,88 @@
 <div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8 max-w-7xl">
-  <h1 class="text-2xl sm:text-3xl font-light mb-4 sm:mb-8 text-center">{{ collectionName }}</h1>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-    @for (product of products(); track product) {
-      <a [routerLink]="['/product', product.sku]" class="bg-white rounded overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <div class="relative pb-[100%] bg-gray-100">
-          <img
-            [src]="product.imageUrl"
-            [alt]="product.name"
-            onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
-            class="absolute inset-0 w-full h-full object-cover"
-          />
-          <span
-            class="absolute inset-0 hidden text-gray-600 text-center flex items-center justify-center px-3 text-xs sm:text-sm"
-          >
-            {{ product.name }}
-          </span>
+  <!-- Skeleton -->
+  @if (isLoading()) {
+    <div class="animate-pulse">
+      <!-- Collection Name Skeleton -->
+      <div class="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 sm:mb-8"></div>
+      
+      <!-- Skeleton Products Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        @for (item of [1,2,3,4,5,6,7,8]; track item) {
+          <div class="bg-white rounded overflow-hidden shadow-sm">
+            <!-- Skeleton Image -->
+            <div class="relative pb-[100%] bg-gray-200"></div>
+            <!-- Skeleton Content -->
+            <div class="p-2 sm:p-4">
+              <div class="h-4 bg-gray-200 rounded mb-1 sm:mb-2"></div>
+              <div class="h-4 bg-gray-200 rounded w-16"></div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  
+  <!-- Collection Not Found State -->
+  @else if (collectionNotFound()) {
+    <div class="text-center py-12">
+      <h2 class="text-2xl font-light mb-4">Collection Not Found</h2>
+      <p class="text-gray-600 mb-6">The collection you're looking for could not be found.</p>
+      <button 
+        (click)="goBackToCollections()" 
+        class="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
+      >
+        Return to Collections
+      </button>
+    </div>
+  }
+  
+  <!-- Normal Collection Products View -->
+  @else {
+    <h1 class="text-2xl sm:text-3xl font-light mb-4 sm:mb-8 text-center">{{ collectionName }}</h1>
+    
+    @if (products().length === 0) {
+      <!-- No Products in Collection -->
+      <div class="flex flex-col items-center justify-center min-h-[300px] text-center">
+        <div class="mb-6">
+          <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+          <h2 class="text-xl font-light mb-2 text-gray-900">No Products Available</h2>
+          <p class="text-gray-600">This collection doesn't have any products yet.</p>
         </div>
-        <div class="p-2 sm:p-4">
-          <h2 class="text-xs sm:text-base font-medium mb-1 sm:mb-2 truncate">{{ product.name }}</h2>
-          <p class="text-gray-900 text-xs sm:text-base">{{ product.price.toFixed(2) }} ฿</p>
-        </div>
-      </a>
+        
+        <button 
+          (click)="goBackToCollections()"
+          class="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+        >
+          Browse Other Collections
+        </button>
+      </div>
+    } @else {
+      <!-- Products Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        @for (product of products(); track product) {
+          <a [routerLink]="['/product', product.sku]" class="bg-white rounded overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div class="relative pb-[100%] bg-gray-100">
+              <img
+                [src]="product.imageUrl"
+                [alt]="product.name"
+                onerror="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')"
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+              <span
+                class="absolute inset-0 hidden text-gray-600 text-center flex items-center justify-center px-3 text-xs sm:text-sm"
+              >
+                {{ product.name }}
+              </span>
+            </div>
+            <div class="p-2 sm:p-4">
+              <h2 class="text-xs sm:text-base font-medium mb-1 sm:mb-2 truncate">{{ product.name }}</h2>
+              <p class="text-gray-900 text-xs sm:text-base">{{ product.price.toFixed(2) }} ฿</p>
+            </div>
+          </a>
+        }
+      </div>
     }
-  </div>
+  }
 </div>
