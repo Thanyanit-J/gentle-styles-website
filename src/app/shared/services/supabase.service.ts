@@ -82,6 +82,38 @@ export class SupabaseService {
       };
     }) as dbProductWithImage[];
   }
+
+  async getPlatforms(): Promise<dbPlatform[]> {
+    const { data, error } = await this.supabase.from('platforms').select('id, name');
+    if (error) throw error;
+    return data as dbPlatform[];
+  }
+
+  async getProductListingsByProductId(productId: dbProduct['id']): Promise<dbProductListingWithPlatform[]> {
+    const { data, error } = await this.supabase
+      .from('product_listings')
+      .select(
+        `
+        id,
+        product_id,
+        platform_product_id,
+        platform_id,
+        platforms!inner (
+          name
+        )
+      `,
+      )
+      .eq('product_id', productId);
+    if (error) throw error;
+
+    return data.map((item) => {
+      const { platforms, ...productListingData } = item as any;
+      return {
+        ...productListingData,
+        platform_name: platforms.name,
+      };
+    }) as dbProductListingWithPlatform[];
+  }
 }
 
 type dbCollection = {
@@ -121,4 +153,26 @@ type dbProductImage = {
 
 type dbProductWithImage = dbProduct & {
   image_url: string;
+};
+
+type dbPlatform = {
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+};
+
+type dbProductListing = {
+  id: string;
+  product_id: string;
+  platform_product_id: string;
+  platform_id: string;
+};
+
+type dbProductListingWithPlatform = {
+  id: string;
+  product_id: string;
+  platform_product_id: string;
+  platform_id: string;
+  platform_name: string;
 };

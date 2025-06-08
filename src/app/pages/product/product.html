@@ -12,7 +12,7 @@
       >
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
       </svg>
-      <span class="text-sm md:text-base">{{ 'product.backToCollection' | translate }}</span>
+      <span class="text-sm md:text-base">{{ "product.backToCollection" | translate }}</span>
     </button>
   </div>
 
@@ -36,10 +36,10 @@
   } @else if (!product()) {
     <!-- Product Not Found -->
     <div class="text-center py-12">
-      <h2 class="text-2xl font-light mb-4">{{ 'product.productNotFound' | translate }}</h2>
-      <p class="text-gray-600 mb-6">{{ 'product.productNotFoundDescription' | translate }}</p>
+      <h2 class="text-2xl font-light mb-4">{{ "product.productNotFound" | translate }}</h2>
+      <p class="text-gray-600 mb-6">{{ "product.productNotFoundDescription" | translate }}</p>
       <button (click)="goBack()" class="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors">
-        {{ 'product.returnToCollections' | translate }}
+        {{ "product.returnToCollections" | translate }}
       </button>
     </div>
   } @else {
@@ -64,21 +64,27 @@
           @if (product()?.platforms) {
             <div class="flex flex-wrap gap-3">
               @for (platform of product()!.platforms!; track platform.name) {
-                <a
-                  [href]="platform.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center space-x-3 border border-gray-300 rounded-lg px-3 py-3 hover:bg-gray-100 transition-colors"
-                >
-                  <div class="w-6 h-6 flex items-center justify-center">
-                    <img [src]="platform.logo" [alt]="platform.name + ' logo'" class="max-h-6 max-w-6 object-contain" />
-                  </div>
-                  <span class="text-sm">{{ 'product.buyOn' | translate }} {{ platform.name }}</span>
-                </a>
+                @if (platform.url) {
+                  <a
+                    [href]="platform.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center space-x-3 border border-gray-300 rounded-lg px-3 py-3 hover:bg-gray-100 transition-colors"
+                  >
+                    <div class="w-6 h-6 flex items-center justify-center">
+                      <img
+                        [src]="platform.logo"
+                        [alt]="platform.name + ' logo'"
+                        class="max-h-6 max-w-6 object-contain"
+                      />
+                    </div>
+                    <span class="text-sm">{{ "product.buyOn" | translate }} {{ platform.name }}</span>
+                  </a>
+                }
               }
             </div>
           } @else {
-            <p class="text-gray-500">{{ 'product.noPurchaseOptions' | translate }}</p>
+            <p class="text-gray-500">{{ "product.noPurchaseOptions" | translate }}</p>
           }
         </div>
       </div>
